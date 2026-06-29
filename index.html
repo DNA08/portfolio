@@ -25,6 +25,20 @@
       font-family: 'Kanit', sans-serif;
       overflow-x: hidden;
     }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes pulse-border {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    .shimmer-box {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite linear;
+      border-radius: inherit;
+    }
   </style>
 </head>
 <body>
@@ -351,7 +365,7 @@ function HeroSection() {
             display: 'block',
             fontFamily: KN,
           },
-        }, "Hi, i’m Sarthak")
+        }, "Sarthak")
       )
     ),
 
@@ -621,6 +635,79 @@ function ServicesSection() {
 // ─────────────────────────────────────────────
 // PROJECTS SECTION
 // ─────────────────────────────────────────────
+function ComingSoonCard({ num, index }) {
+  const imgRadius = 'clamp(16px,2vw,32px)';
+  const [tick, setTick] = React.useState(0);
+  React.useEffect(() => {
+    const t = setInterval(() => setTick(t => (t + 1) % 4), 500);
+    return () => clearInterval(t);
+  }, []);
+  const dots = '.'.repeat(tick);
+
+  return React.createElement('div', {
+    style: {
+      borderRadius: 'clamp(30px,4vw,60px)',
+      border: '2px solid var(--accent)',
+      background: '#0C0C0C',
+      padding: 'clamp(16px,2vw,32px)',
+      animation: 'pulse-border 3s ease-in-out infinite',
+    },
+  },
+    // Top row
+    React.createElement('div', {
+      style: {
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: 'clamp(12px,1.5vw,24px)', flexWrap: 'wrap', gap: '12px',
+      },
+    },
+      React.createElement('div', {
+        style: { display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,24px)' },
+      },
+        React.createElement('span', {
+          style: { ...GT, fontWeight: 900, fontSize: 'clamp(2.5rem,7vw,110px)', lineHeight: 1, fontFamily: KN },
+        }, num),
+        React.createElement('div', {},
+          React.createElement('p', {
+            style: { color: 'var(--accent)', opacity: 0.5, textTransform: 'uppercase', fontSize: 'clamp(0.7rem,1vw,0.9rem)', letterSpacing: '0.1em', fontFamily: KN, fontWeight: 300 },
+          }, 'Coming Soon'),
+          React.createElement('h3', {
+            style: { color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(1.1rem,2.5vw,2.2rem)', fontFamily: KN, lineHeight: 1.1 },
+          }, 'Work in progress' + dots)
+        )
+      ),
+      React.createElement('button', {
+        style: {
+          borderRadius: '9999px', border: '2px solid var(--accent)', background: 'transparent',
+          color: 'var(--accent)', fontFamily: KN, fontWeight: 500, textTransform: 'uppercase',
+          letterSpacing: '0.1em', padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+          fontSize: 'clamp(0.8rem,1vw,1rem)', cursor: 'default', opacity: 0.4, whiteSpace: 'nowrap',
+        },
+      }, 'Coming Soon')
+    ),
+    // Shimmer image grid
+    React.createElement('div', { style: { display: 'flex', gap: 'clamp(8px,1vw,16px)' } },
+      React.createElement('div', {
+        style: { width: '40%', display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1vw,16px)' },
+      },
+        React.createElement('div', {
+          className: 'shimmer-box',
+          style: { width: '100%', height: 'clamp(130px,16vw,230px)', borderRadius: imgRadius },
+        }),
+        React.createElement('div', {
+          className: 'shimmer-box',
+          style: { width: '100%', height: 'clamp(160px,22vw,340px)', borderRadius: imgRadius },
+        })
+      ),
+      React.createElement('div', { style: { width: '60%' } },
+        React.createElement('div', {
+          className: 'shimmer-box',
+          style: { width: '100%', minHeight: 'clamp(290px,38vw,580px)', borderRadius: imgRadius },
+        })
+      )
+    )
+  );
+}
+
 function ProjectCardContent({ project }) {
   const imgRadius = 'clamp(20px,3vw,50px)';
   return React.createElement('div', {
@@ -723,68 +810,36 @@ function ProjectCard({ project, index, total, scrollProgress }) {
   return React.createElement(ProjectCardMotion, { project, index, total, scrollProgress });
 }
 
-function ProjectsSectionInner() {
-  const ref = React.useRef(null);
-  const M = window.Motion;
-  const { scrollYProgress } = M.useScroll({ target: ref, offset: ['start start', 'end end'] });
-
+function ProjectsSection() {
   return React.createElement('section', {
-    ref,
     id: 'projects',
     style: {
       background: '#0C0C0C',
       borderRadius: 'clamp(40px,5vw,60px) clamp(40px,5vw,60px) 0 0',
       marginTop: 'clamp(-56px,-3.5vw,-40px)',
-      position: 'relative',
-      zIndex: 10,
+      position: 'relative', zIndex: 10,
       padding: 'clamp(64px,6vw,80px) clamp(20px,4vw,40px) clamp(80px,8vw,120px)',
     },
   },
-    React.createElement('h2', {
-      style: {
-        ...GT, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1,
-        letterSpacing: '-0.02em', textAlign: 'center',
-        fontSize: 'clamp(3rem,12vw,160px)', marginBottom: 'clamp(40px,4vw,64px)',
-        fontFamily: KN,
-      },
-    }, 'Project'),
-    React.createElement('div', { style: { maxWidth: '1280px', margin: '0 auto' } },
-      PROJECTS.map((p, i) => React.createElement(ProjectCard, {
-        key: i, project: p, index: i, total: PROJECTS.length,
-        scrollProgress: scrollYProgress,
-      }))
-    )
-  );
-}
-
-function ProjectsSection() {
-  const M = window.Motion;
-  if (!M || !M.useScroll) {
-    return React.createElement('section', {
-      id: 'projects',
-      style: {
-        background: '#0C0C0C',
-        borderRadius: 'clamp(40px,5vw,60px) clamp(40px,5vw,60px) 0 0',
-        marginTop: 'clamp(-56px,-3.5vw,-40px)',
-        position: 'relative', zIndex: 10,
-        padding: 'clamp(64px,6vw,80px) clamp(20px,4vw,40px)',
-      },
-    },
+    React.createElement(FadeIn, { delay: 0, y: 40 },
       React.createElement('h2', {
         style: {
           ...GT, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1,
           letterSpacing: '-0.02em', textAlign: 'center',
           fontSize: 'clamp(3rem,12vw,160px)', marginBottom: 'clamp(40px,4vw,64px)', fontFamily: KN,
         },
-      }, 'Project'),
-      React.createElement('div', { style: { maxWidth: '1280px', margin: '0 auto' } },
-        PROJECTS.map((p, i) => React.createElement(ProjectCard, {
-          key: i, project: p, index: i, total: PROJECTS.length, scrollProgress: null,
-        }))
+      }, 'Projects')
+    ),
+    React.createElement('div', {
+      style: { maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(24px,3vw,40px)' },
+    },
+      ['01', '02', '03'].map((num, i) =>
+        React.createElement(FadeIn, { key: i, delay: i * 0.15, y: 40 },
+          React.createElement(ComingSoonCard, { num, index: i })
+        )
       )
-    );
-  }
-  return React.createElement(ProjectsSectionInner);
+    )
+  );
 }
 
 // ─────────────────────────────────────────────
