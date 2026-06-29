@@ -39,6 +39,25 @@
       animation: shimmer 2s infinite linear;
       border-radius: inherit;
     }
+    @keyframes orb-morph {
+      0%,100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      50%  { border-radius: 50% 50% 30% 70% / 30% 30% 70% 70%; }
+      75%  { border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%; }
+    }
+    @keyframes orb-float {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      50%     { transform: translateY(-24px) rotate(8deg); }
+    }
+    @keyframes orb-glow {
+      0%,100% { box-shadow: 0 0 60px rgba(182,0,168,.55), 0 0 120px rgba(118,33,176,.3), 0 0 200px rgba(190,76,0,.15); }
+      50%     { box-shadow: 0 0 80px rgba(182,0,168,.8),  0 0 160px rgba(118,33,176,.5), 0 0 260px rgba(190,76,0,.25); }
+    }
+    .orb {
+      background: radial-gradient(ellipse at 35% 35%, #e040c8 0%, #B600A8 20%, #7621B0 50%, #2a0a3a 75%, #BE4C00 100%);
+      animation: orb-morph 8s ease-in-out infinite, orb-float 6s ease-in-out infinite, orb-glow 4s ease-in-out infinite;
+      will-change: transform, border-radius, box-shadow;
+    }
   </style>
 </head>
 <body>
@@ -357,15 +376,17 @@ function HeroSection() {
             fontWeight: 900,
             textTransform: 'uppercase',
             letterSpacing: '-0.02em',
-            lineHeight: 1,
-            whiteSpace: 'nowrap',
+            lineHeight: 0.92,
             width: '100%',
             fontSize: 'clamp(13vw,17.5vw,17.5vw)',
             marginTop: 'clamp(-20px,calc(-1.5vw + 4px),24px)',
             display: 'block',
             fontFamily: KN,
           },
-        }, "Sarthak")
+        },
+          React.createElement('span', { style: { display: 'block' } }, 'Bareilly'),
+          React.createElement('span', { style: { display: 'block' } }, 'Digital')
+        )
       )
     ),
 
@@ -395,36 +416,32 @@ function HeroSection() {
             maxWidth: 'clamp(160px,18vw,260px)',
             fontFamily: KN,
           },
-        }, 'a digital creator building striking products, brands, and experiences')
+        }, 'a digital studio building striking products, brands, and experiences')
       ),
       React.createElement(FadeIn, { delay: 0.5, y: 20 },
         React.createElement(ContactButton)
       )
     ),
 
-    // Portrait (absolutely centered)
+    // Gradient orb (absolutely centered)
     React.createElement('div', {
       style: {
         position: 'absolute',
         left: '50%',
         transform: 'translateX(-50%)',
-        bottom: 0,
+        bottom: '-8%',
         zIndex: 10,
         pointerEvents: 'none',
       },
     },
-      React.createElement(FadeIn, { delay: 0.6, y: 30, style: { pointerEvents: 'auto' } },
-        React.createElement(Magnet, { padding: 150, strength: 3 },
-          React.createElement('img', {
-            src: 'https://i.postimg.cc/ydt8K2VT/Whats-App-Image-2026-06-29-at-17-28-56-removebg-preview.png',
-            alt: 'Sarthak',
-            style: {
-              width: 'clamp(280px,36vw,520px)',
-              display: 'block',
-              objectFit: 'contain',
-            },
-          })
-        )
+      React.createElement(FadeIn, { delay: 0.6, y: 30 },
+        React.createElement('div', {
+          className: 'orb',
+          style: {
+            width: 'clamp(260px,32vw,480px)',
+            height: 'clamp(260px,32vw,480px)',
+          },
+        })
       )
     )
   );
@@ -489,7 +506,7 @@ function MarqueeSection() {
 // ABOUT SECTION
 // ─────────────────────────────────────────────
 function AboutSection() {
-  const ABOUT_TEXT = "I'm Sarthak — a digital creator who blends design, development, and strategy to build products that actually perform. I work with brands and founders on everything from web design and app development to branding, social media, and SEO. If you want a strong digital presence that stands out and converts, let's build something great together.";
+  const ABOUT_TEXT = "Bareilly Digital is a full-service digital studio blending design, development, and strategy to build things that actually perform. We work with brands and founders on everything from web design and app development to branding, social media, and SEO. If you want a digital presence that stands out and converts, let's build something great together.";
 
   function DecImg({ src, posStyle, fadeProps }) {
     return React.createElement('div', { style: { position: 'absolute', zIndex: 1, pointerEvents: 'none', ...posStyle } },
@@ -545,7 +562,7 @@ function AboutSection() {
             letterSpacing: '-0.02em', textAlign: 'center',
             fontSize: 'clamp(3rem,12vw,160px)', fontFamily: KN,
           },
-        }, 'About me')
+        }, 'About us')
       ),
       React.createElement('div', {
         style: {
