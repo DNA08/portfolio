@@ -710,7 +710,7 @@ function LiveIframePreview({ url, name, radius }) {
   return React.createElement('div', {
     ref: wrapRef,
     style: {
-      width: '60%',
+      width: '100%',
       height: containerH,
       borderRadius: radius,
       overflow: 'hidden',
@@ -883,36 +883,8 @@ function LiveCard({ project }) {
         letterSpacing: '0.02em',
       },
     }, project.desc),
-    // Image grid: left = static crops, right = live iframe preview
-    React.createElement('div', { style: { display: 'flex', gap: 'clamp(8px,1vw,16px)' } },
-      // Left column: two different screenshot crops
-      React.createElement('div', {
-        style: { width: '40%', display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1vw,16px)' },
-      },
-        React.createElement('div', {
-          style: { width: '100%', height: 'clamp(130px,16vw,230px)', borderRadius: imgRadius, overflow: 'hidden', background: '#111' },
-        },
-          React.createElement('img', {
-            src: 'https://api.microlink.io/?url=' + encodeURIComponent(project.url) + '&screenshot=true&meta=false&embed=screenshot.url',
-            alt: project.name,
-            style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' },
-            loading: 'lazy',
-          })
-        ),
-        React.createElement('div', {
-          style: { width: '100%', height: 'clamp(160px,22vw,340px)', borderRadius: imgRadius, overflow: 'hidden', background: '#111' },
-        },
-          React.createElement('img', {
-            src: 'https://api.microlink.io/?url=' + encodeURIComponent(project.url) + '&screenshot=true&meta=false&embed=screenshot.url',
-            alt: project.name,
-            style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 65%', display: 'block' },
-            loading: 'lazy',
-          })
-        )
-      ),
-      // Right column: live animated iframe
-      React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
-    )
+    // Full-width live iframe preview
+    React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
   );
 }
 
