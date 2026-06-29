@@ -686,6 +686,14 @@ const LIVE_PROJECTS = [
     url: 'https://famous-youtiao-0d4874.netlify.app/',
     tags: ['Web Design', 'Dev', 'UI/UX'],
   },
+  {
+    num: '02',
+    name: 'SS Shopping',
+    type: 'Client · E-Commerce',
+    desc: 'Full-featured e-commerce storefront built for SS Shopping. Browse products, manage a cart, and complete purchases — a seamless end-to-end online shopping experience.',
+    url: 'https://ssshoppingsite.com/',
+    tags: ['E-Commerce', 'Web Dev', 'UI/UX'],
+  },
 ];
 
 function LiveIframePreview({ url, name, radius }) {
@@ -1089,10 +1097,11 @@ function ProjectsSection() {
       React.createElement(FadeIn, { key: 0, delay: 0, y: 40 },
         React.createElement(LiveCard, { project: LIVE_PROJECTS[0] })
       ),
-      ['02', '03'].map((num, i) =>
-        React.createElement(FadeIn, { key: num, delay: (i + 1) * 0.15, y: 40 },
-          React.createElement(ComingSoonCard, { num, index: i + 1 })
-        )
+      React.createElement(FadeIn, { key: 1, delay: 0.15, y: 40 },
+        React.createElement(LiveCard, { project: LIVE_PROJECTS[1] })
+      ),
+      React.createElement(FadeIn, { key: 2, delay: 0.3, y: 40 },
+        React.createElement(ComingSoonCard, { num: '03', index: 2 })
       )
     )
   );
