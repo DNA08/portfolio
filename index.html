@@ -688,6 +688,103 @@ const LIVE_PROJECTS = [
   },
 ];
 
+function LiveIframePreview({ url, name, radius }) {
+  const wrapRef = React.useRef(null);
+  const [scale, setScale] = React.useState(0.5);
+  const [hovered, setHovered] = React.useState(false);
+  const IFRAME_W = 1440;
+  const IFRAME_H = 900;
+
+  React.useEffect(() => {
+    const update = () => {
+      if (wrapRef.current) setScale(wrapRef.current.offsetWidth / IFRAME_W);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const containerH = 'clamp(290px,38vw,580px)';
+
+  return React.createElement('div', {
+    ref: wrapRef,
+    style: {
+      width: '60%',
+      height: containerH,
+      borderRadius: radius,
+      overflow: 'hidden',
+      position: 'relative',
+      background: '#0a0a0a',
+      flexShrink: 0,
+    },
+  },
+    // Scaled iframe
+    React.createElement('div', {
+      style: {
+        width: IFRAME_W + 'px',
+        height: IFRAME_H + 'px',
+        transform: 'scale(' + scale + ')',
+        transformOrigin: 'top left',
+        pointerEvents: hovered ? 'auto' : 'none',
+      },
+    },
+      React.createElement('iframe', {
+        src: url,
+        title: name,
+        style: { width: '100%', height: '100%', border: 'none', display: 'block' },
+        loading: 'lazy',
+      })
+    ),
+    // Overlay — click to interact
+    !hovered && React.createElement('div', {
+      onClick: () => setHovered(true),
+      style: {
+        position: 'absolute', inset: 0,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        gap: '10px',
+        background: 'rgba(12,12,12,0.35)',
+        cursor: 'pointer',
+        backdropFilter: 'blur(1px)',
+        transition: 'background 0.2s',
+      },
+    },
+      React.createElement('span', {
+        style: {
+          display: 'inline-flex', alignItems: 'center', gap: '8px',
+          background: 'rgba(12,12,12,0.7)',
+          border: '1px solid rgba(215,226,234,0.2)',
+          borderRadius: '9999px',
+          color: 'var(--accent)',
+          fontFamily: KN, fontWeight: 500,
+          fontSize: 'clamp(0.7rem,1vw,0.9rem)',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          padding: '10px 24px',
+        },
+      }, '▶  Click to Explore Live')
+    ),
+    // "Exit" hint when interacting
+    hovered && React.createElement('div', {
+      onClick: () => setHovered(false),
+      style: {
+        position: 'absolute', top: '12px', right: '12px',
+        background: 'rgba(12,12,12,0.75)',
+        border: '1px solid rgba(215,226,234,0.15)',
+        borderRadius: '9999px',
+        color: 'var(--accent)',
+        fontFamily: KN, fontWeight: 400,
+        fontSize: '0.7rem', letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        padding: '6px 14px',
+        cursor: 'pointer',
+        zIndex: 10,
+      },
+    }, '✕ Exit')
+  );
+}
+
 function LiveCard({ project }) {
   const [hov, setHov] = React.useState(false);
   const imgRadius = 'clamp(16px,2vw,28px)';
@@ -786,8 +883,9 @@ function LiveCard({ project }) {
         letterSpacing: '0.02em',
       },
     }, project.desc),
-    // Screenshot image grid via Microlink API
+    // Image grid: left = static crops, right = live iframe preview
     React.createElement('div', { style: { display: 'flex', gap: 'clamp(8px,1vw,16px)' } },
+      // Left column: two different screenshot crops
       React.createElement('div', {
         style: { width: '40%', display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1vw,16px)' },
       },
@@ -796,7 +894,7 @@ function LiveCard({ project }) {
         },
           React.createElement('img', {
             src: 'https://api.microlink.io/?url=' + encodeURIComponent(project.url) + '&screenshot=true&meta=false&embed=screenshot.url',
-            alt: project.name + ' screenshot',
+            alt: project.name,
             style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' },
             loading: 'lazy',
           })
@@ -806,24 +904,14 @@ function LiveCard({ project }) {
         },
           React.createElement('img', {
             src: 'https://api.microlink.io/?url=' + encodeURIComponent(project.url) + '&screenshot=true&meta=false&embed=screenshot.url',
-            alt: project.name + ' screenshot',
-            style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' },
+            alt: project.name,
+            style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 65%', display: 'block' },
             loading: 'lazy',
           })
         )
       ),
-      React.createElement('div', { style: { width: '60%' } },
-        React.createElement('div', {
-          style: { width: '100%', minHeight: 'clamp(290px,38vw,580px)', borderRadius: imgRadius, overflow: 'hidden', background: '#111' },
-        },
-          React.createElement('img', {
-            src: 'https://api.microlink.io/?url=' + encodeURIComponent(project.url) + '&screenshot=true&meta=false&embed=screenshot.url',
-            alt: project.name + ' screenshot',
-            style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' },
-            loading: 'lazy',
-          })
-        )
-      )
+      // Right column: live animated iframe
+      React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
     )
   );
 }
