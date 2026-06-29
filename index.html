@@ -367,85 +367,66 @@ function HeroSection() {
       )
     ),
 
-    // Main content row: left text + right orb
+    // Center block: heading → orb → tagline
     React.createElement('div', {
       style: {
         flex: 1,
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         alignItems: 'center',
-        padding: '0 clamp(24px,4vw,48px)',
-        gap: 'clamp(16px,3vw,40px)',
-        minHeight: 0,
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: 'clamp(20px,3vw,40px) clamp(16px,4vw,48px)',
+        gap: 'clamp(20px,3vw,36px)',
       },
     },
-      // LEFT: heading + tagline
-      React.createElement('div', {
-        style: {
-          flex: '1 1 0',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          gap: 'clamp(16px,2.5vw,32px)',
-        },
-      },
-        React.createElement(FadeIn, { delay: 0.12, y: 40 },
-          React.createElement('h1', {
-            style: {
-              ...GT,
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              letterSpacing: '-0.03em',
-              lineHeight: 0.88,
-              fontSize: 'clamp(10vw,11.5vw,160px)',
-              fontFamily: KN,
-              margin: 0,
-            },
+      // Heading
+      React.createElement(FadeIn, { delay: 0.12, y: 40 },
+        React.createElement('h1', {
+          style: {
+            ...GT,
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '-0.03em',
+            lineHeight: 0.88,
+            fontSize: 'clamp(14vw,16vw,220px)',
+            fontFamily: KN,
+            margin: 0,
+            textAlign: 'center',
           },
-            React.createElement('span', { style: { display: 'block' } }, 'Bareilly'),
-            React.createElement('span', { style: { display: 'block' } }, 'Digital')
-          )
-        ),
-        React.createElement(FadeIn, { delay: 0.3, y: 20 },
-          React.createElement('p', {
-            style: {
-              color: 'var(--accent)',
-              fontWeight: 300,
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              lineHeight: 1.5,
-              fontSize: 'clamp(0.7rem,1.1vw,1.05rem)',
-              maxWidth: '320px',
-              fontFamily: KN,
-              opacity: 0.75,
-              margin: 0,
-            },
-          }, 'A digital studio building striking products, brands & experiences')
-        ),
-        React.createElement(FadeIn, { delay: 0.45, y: 20 },
-          React.createElement(ContactButton)
+        },
+          React.createElement('span', { style: { display: 'block' } }, 'Bareilly'),
+          React.createElement('span', { style: { display: 'block' } }, 'Digital')
         )
       ),
 
-      // RIGHT: gradient orb
-      React.createElement('div', {
-        style: {
-          flex: '0 0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 'clamp(240px,38vw,560px)',
-        },
-      },
-        React.createElement(FadeIn, { delay: 0.55, y: 30 },
-          React.createElement('div', {
-            className: 'orb',
-            style: {
-              width: 'clamp(220px,34vw,500px)',
-              height: 'clamp(220px,34vw,500px)',
-            },
-          })
-        )
+      // Orb (abstract) below heading
+      React.createElement(FadeIn, { delay: 0.35, y: 30 },
+        React.createElement('div', {
+          className: 'orb',
+          style: {
+            width: 'clamp(180px,22vw,320px)',
+            height: 'clamp(180px,22vw,320px)',
+          },
+        })
+      ),
+
+      // Tagline below orb
+      React.createElement(FadeIn, { delay: 0.55, y: 20 },
+        React.createElement('p', {
+          style: {
+            color: 'var(--accent)',
+            fontWeight: 300,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            lineHeight: 1.6,
+            fontSize: 'clamp(0.65rem,1vw,0.95rem)',
+            maxWidth: '480px',
+            fontFamily: KN,
+            opacity: 0.6,
+            margin: 0,
+          },
+        }, 'A digital studio building striking products, brands & experiences')
       )
     ),
 
@@ -453,15 +434,12 @@ function HeroSection() {
     React.createElement('div', {
       style: {
         display: 'flex',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         padding: '0 clamp(24px,4vw,48px) clamp(24px,2.5vw,36px)',
-        gap: '10px',
-        position: 'relative',
-        zIndex: 20,
       },
     },
-      React.createElement(FadeIn, { delay: 0.6, y: 10 },
+      React.createElement(FadeIn, { delay: 0.7, y: 10 },
         React.createElement('span', {
           style: {
             display: 'inline-flex',
@@ -470,17 +448,17 @@ function HeroSection() {
             color: 'var(--accent)',
             fontFamily: KN,
             fontWeight: 300,
-            fontSize: 'clamp(0.65rem,0.9vw,0.85rem)',
-            letterSpacing: '0.08em',
+            fontSize: 'clamp(0.65rem,0.85vw,0.8rem)',
+            letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            opacity: 0.55,
+            opacity: 0.45,
           },
         },
           React.createElement('span', {
             style: {
               display: 'inline-block',
-              width: '7px',
-              height: '7px',
+              width: '6px',
+              height: '6px',
               borderRadius: '50%',
               background: '#00e676',
               boxShadow: '0 0 8px #00e676',
@@ -907,6 +885,208 @@ function ProjectsSection() {
 }
 
 // ─────────────────────────────────────────────
+// FOOTER
+// ─────────────────────────────────────────────
+function FooterSection() {
+  const year = new Date().getFullYear();
+  const links = ['About', 'Services', 'Projects', 'Contact'];
+  return React.createElement('footer', {
+    id: 'contact',
+    style: {
+      background: '#0C0C0C',
+      borderTop: '1px solid rgba(215,226,234,0.08)',
+      padding: 'clamp(56px,6vw,80px) clamp(24px,4vw,48px) clamp(32px,3vw,48px)',
+      fontFamily: KN,
+    },
+  },
+    // Top row: brand + nav links
+    React.createElement('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        gap: 'clamp(32px,4vw,48px)',
+        marginBottom: 'clamp(48px,5vw,72px)',
+      },
+    },
+      // Brand block
+      React.createElement(FadeIn, { delay: 0, y: 20 },
+        React.createElement('div', {},
+          React.createElement('div', {
+            style: {
+              background: 'var(--gt)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontWeight: 900,
+              fontSize: 'clamp(1.5rem,3.5vw,3rem)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1,
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            },
+          }, 'Bareilly Digital'),
+          React.createElement('p', {
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 300,
+              fontSize: 'clamp(0.7rem,0.9vw,0.85rem)',
+              letterSpacing: '0.06em',
+              opacity: 0.5,
+              maxWidth: '260px',
+              lineHeight: 1.6,
+            },
+          }, 'Building striking digital products, brands & experiences from Bareilly.')
+        )
+      ),
+      // Nav links
+      React.createElement(FadeIn, { delay: 0.1, y: 20 },
+        React.createElement('div', {
+          style: { display: 'flex', flexDirection: 'column', gap: '16px' },
+        },
+          React.createElement('p', {
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 600,
+              fontSize: 'clamp(0.65rem,0.8vw,0.75rem)',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              opacity: 0.4,
+            },
+          }, 'Navigation'),
+          ...links.map(l =>
+            React.createElement('a', {
+              key: l,
+              href: '#' + l.toLowerCase(),
+              style: {
+                color: 'var(--accent)',
+                fontWeight: 400,
+                fontSize: 'clamp(0.85rem,1vw,1rem)',
+                letterSpacing: '0.05em',
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                opacity: 0.7,
+                transition: 'opacity 0.2s',
+              },
+              onMouseEnter: e => { e.currentTarget.style.opacity = '1'; },
+              onMouseLeave: e => { e.currentTarget.style.opacity = '0.7'; },
+            }, l)
+          )
+        )
+      ),
+      // Contact block
+      React.createElement(FadeIn, { delay: 0.2, y: 20 },
+        React.createElement('div', {
+          style: { display: 'flex', flexDirection: 'column', gap: '16px' },
+        },
+          React.createElement('p', {
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 600,
+              fontSize: 'clamp(0.65rem,0.8vw,0.75rem)',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              opacity: 0.4,
+            },
+          }, 'Get in Touch'),
+          React.createElement('a', {
+            href: 'mailto:sarthak.nitw@gmail.com',
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 400,
+              fontSize: 'clamp(0.85rem,1.1vw,1rem)',
+              letterSpacing: '0.03em',
+              textDecoration: 'none',
+              opacity: 0.7,
+              transition: 'opacity 0.2s',
+            },
+            onMouseEnter: e => { e.currentTarget.style.opacity = '1'; },
+            onMouseLeave: e => { e.currentTarget.style.opacity = '0.7'; },
+          }, 'sarthak.nitw@gmail.com'),
+          React.createElement('a', {
+            href: 'tel:+918433164275',
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 400,
+              fontSize: 'clamp(0.85rem,1.1vw,1rem)',
+              letterSpacing: '0.03em',
+              textDecoration: 'none',
+              opacity: 0.7,
+              transition: 'opacity 0.2s',
+            },
+            onMouseEnter: e => { e.currentTarget.style.opacity = '1'; },
+            onMouseLeave: e => { e.currentTarget.style.opacity = '0.7'; },
+          }, '+91 84331 64275'),
+          React.createElement('a', {
+            href: 'mailto:sarthak.nitw@gmail.com',
+            style: {
+              marginTop: '8px',
+              display: 'inline-block',
+              borderRadius: '9999px',
+              background: 'var(--btn)',
+              boxShadow: 'var(--btn-shad)',
+              outline: '2px solid #fff',
+              outlineOffset: '-3px',
+              color: '#fff',
+              fontFamily: KN,
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+              fontSize: 'clamp(0.7rem,0.9vw,0.85rem)',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            },
+          }, 'Start a Project')
+        )
+      )
+    ),
+
+    // Divider
+    React.createElement('div', {
+      style: {
+        height: '1px',
+        background: 'rgba(215,226,234,0.07)',
+        marginBottom: 'clamp(24px,2.5vw,32px)',
+      },
+    }),
+
+    // Bottom row: copyright + tagline
+    React.createElement('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        gap: '12px',
+      },
+    },
+      React.createElement('p', {
+        style: {
+          color: 'var(--accent)',
+          fontWeight: 300,
+          fontSize: 'clamp(0.6rem,0.8vw,0.75rem)',
+          letterSpacing: '0.06em',
+          opacity: 0.35,
+        },
+      }, '© ' + year + ' Bareilly Digital. All rights reserved.'),
+      React.createElement('p', {
+        style: {
+          color: 'var(--accent)',
+          fontWeight: 300,
+          fontSize: 'clamp(0.6rem,0.8vw,0.75rem)',
+          letterSpacing: '0.06em',
+          opacity: 0.35,
+          textTransform: 'uppercase',
+        },
+      }, 'bareillydigital.in')
+    )
+  );
+}
+
+// ─────────────────────────────────────────────
 // MAIN APP
 // ─────────────────────────────────────────────
 function PortfolioApp({ palette, motionIntensity, density }) {
@@ -931,7 +1111,8 @@ function PortfolioApp({ palette, motionIntensity, density }) {
       React.createElement(MarqueeSection),
       React.createElement(AboutSection),
       React.createElement(ServicesSection),
-      React.createElement(ProjectsSection)
+      React.createElement(ProjectsSection),
+      React.createElement(FooterSection)
     )
   );
 }
