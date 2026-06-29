@@ -343,10 +343,10 @@ function HeroSection() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: 'clamp(24px,3vw,32px) clamp(24px,4vw,40px) 0',
+          padding: 'clamp(24px,3vw,36px) clamp(24px,4vw,48px) 0',
         },
       },
-        ['About', 'Price', 'Projects', 'Contact'].map(l =>
+        ['About', 'Services', 'Projects', 'Contact'].map(l =>
           React.createElement('a', {
             key: l,
             href: '#' + l.toLowerCase(),
@@ -355,93 +355,140 @@ function HeroSection() {
               fontWeight: 500,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              fontSize: 'clamp(0.875rem,1.4vw,1.4rem)',
+              fontSize: 'clamp(0.75rem,1.1vw,1rem)',
               textDecoration: 'none',
               transition: 'opacity 0.2s',
               fontFamily: KN,
             },
-            onMouseEnter: e => { e.currentTarget.style.opacity = '.7'; },
+            onMouseEnter: e => { e.currentTarget.style.opacity = '.5'; },
             onMouseLeave: e => { e.currentTarget.style.opacity = '1'; },
           }, l)
         )
       )
     ),
 
-    // Heading
-    React.createElement(FadeIn, { delay: 0.15, y: 40 },
-      React.createElement('div', { style: { overflow: 'hidden' } },
-        React.createElement('h1', {
-          style: {
-            ...GT,
-            fontWeight: 900,
-            textTransform: 'uppercase',
-            letterSpacing: '-0.02em',
-            lineHeight: 0.92,
-            width: '100%',
-            fontSize: 'clamp(13vw,17.5vw,17.5vw)',
-            marginTop: 'clamp(-20px,calc(-1.5vw + 4px),24px)',
-            display: 'block',
-            fontFamily: KN,
-          },
+    // Main content row: left text + right orb
+    React.createElement('div', {
+      style: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: '0 clamp(24px,4vw,48px)',
+        gap: 'clamp(16px,3vw,40px)',
+        minHeight: 0,
+      },
+    },
+      // LEFT: heading + tagline
+      React.createElement('div', {
+        style: {
+          flex: '1 1 0',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 'clamp(16px,2.5vw,32px)',
         },
-          React.createElement('span', { style: { display: 'block' } }, 'Bareilly'),
-          React.createElement('span', { style: { display: 'block' } }, 'Digital')
+      },
+        React.createElement(FadeIn, { delay: 0.12, y: 40 },
+          React.createElement('h1', {
+            style: {
+              ...GT,
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.03em',
+              lineHeight: 0.88,
+              fontSize: 'clamp(10vw,11.5vw,160px)',
+              fontFamily: KN,
+              margin: 0,
+            },
+          },
+            React.createElement('span', { style: { display: 'block' } }, 'Bareilly'),
+            React.createElement('span', { style: { display: 'block' } }, 'Digital')
+          )
+        ),
+        React.createElement(FadeIn, { delay: 0.3, y: 20 },
+          React.createElement('p', {
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 300,
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              lineHeight: 1.5,
+              fontSize: 'clamp(0.7rem,1.1vw,1.05rem)',
+              maxWidth: '320px',
+              fontFamily: KN,
+              opacity: 0.75,
+              margin: 0,
+            },
+          }, 'A digital studio building striking products, brands & experiences')
+        ),
+        React.createElement(FadeIn, { delay: 0.45, y: 20 },
+          React.createElement(ContactButton)
+        )
+      ),
+
+      // RIGHT: gradient orb
+      React.createElement('div', {
+        style: {
+          flex: '0 0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 'clamp(240px,38vw,560px)',
+        },
+      },
+        React.createElement(FadeIn, { delay: 0.55, y: 30 },
+          React.createElement('div', {
+            className: 'orb',
+            style: {
+              width: 'clamp(220px,34vw,500px)',
+              height: 'clamp(220px,34vw,500px)',
+            },
+          })
         )
       )
     ),
 
-    // Flex spacer
-    React.createElement('div', { style: { flex: 1 } }),
-
-    // Bottom bar
+    // Bottom availability badge
     React.createElement('div', {
       style: {
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        padding: '0 clamp(24px,4vw,40px) clamp(28px,3vw,40px)',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: '0 clamp(24px,4vw,48px) clamp(24px,2.5vw,36px)',
+        gap: '10px',
         position: 'relative',
         zIndex: 20,
       },
     },
-      React.createElement(FadeIn, { delay: 0.35, y: 20 },
-        React.createElement('p', {
+      React.createElement(FadeIn, { delay: 0.6, y: 10 },
+        React.createElement('span', {
           style: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
             color: 'var(--accent)',
-            fontWeight: 300,
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            lineHeight: 1.4,
-            fontSize: 'clamp(0.75rem,1.4vw,1.5rem)',
-            maxWidth: 'clamp(160px,18vw,260px)',
             fontFamily: KN,
+            fontWeight: 300,
+            fontSize: 'clamp(0.65rem,0.9vw,0.85rem)',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            opacity: 0.55,
           },
-        }, 'a digital studio building striking products, brands, and experiences')
-      ),
-      React.createElement(FadeIn, { delay: 0.5, y: 20 },
-        React.createElement(ContactButton)
-      )
-    ),
-
-    // Gradient orb (absolutely centered)
-    React.createElement('div', {
-      style: {
-        position: 'absolute',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        bottom: '-8%',
-        zIndex: 10,
-        pointerEvents: 'none',
-      },
-    },
-      React.createElement(FadeIn, { delay: 0.6, y: 30 },
-        React.createElement('div', {
-          className: 'orb',
-          style: {
-            width: 'clamp(260px,32vw,480px)',
-            height: 'clamp(260px,32vw,480px)',
-          },
-        })
+        },
+          React.createElement('span', {
+            style: {
+              display: 'inline-block',
+              width: '7px',
+              height: '7px',
+              borderRadius: '50%',
+              background: '#00e676',
+              boxShadow: '0 0 8px #00e676',
+              animation: 'pulse-border 2s ease-in-out infinite',
+            },
+          }),
+          'Available for new projects'
+        )
       )
     )
   );
