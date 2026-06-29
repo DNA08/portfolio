@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sarthak -- Digital Creator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@11/dist/framer-motion.js"></script>
+  <style>
+    html, body, #root {
+      background: #0C0C0C !important;
+      margin: 0;
+      padding: 0;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Kanit', sans-serif;
+      overflow-x: hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const IMAGES = [
+  'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+  'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+  'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+  'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+  'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+  'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+  'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+  'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+  'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+  'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+  'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+  'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
+  'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
+  'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
+  'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
+  'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
+  'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
+  'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
+  'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
+  'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
+  'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
+];
+
+const SERVICES = [
+  { num: '01', name: 'Web & UI Design', desc: 'Designing clean, modern, and conversion-focused websites and interfaces with sharp attention to layout, typography, and user experience.' },
+  { num: '02', name: 'App Development', desc: 'Building performant, user-friendly web and mobile applications tailored to your business goals — from MVPs to production-grade products.' },
+  { num: '03', name: 'Branding & Identity', desc: 'Crafting cohesive visual identities — from logos to full brand systems — that communicate a clear, memorable, and distinctive presence.' },
+  { num: '04', name: 'Social Media', desc: 'Managing and growing your brand\'s social presence with strategic content, consistent scheduling, and storytelling that drives real engagement.' },
+  { num: '05', name: 'SEO & Growth', desc: 'Optimizing your digital presence to rank higher, attract the right audience, and turn visitors into loyal customers.' },
+];
+
+const PROJECTS = [
+  {
+    num: '01', name: 'Nextlevel Studio', type: 'Client',
+    c1i1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
+    c1i2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
+    c2:   'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
+  },
+  {
+    num: '02', name: 'Aura Brand Identity', type: 'Personal',
+    c1i1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
+    c1i2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
+    c2:   'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
+  },
+  {
+    num: '03', name: 'Solaris Digital', type: 'Client',
+    c1i1: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
+    c1i2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
+    c2:   'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
+  },
+];
+
+// ─────────────────────────────────────────────
+// DESIGN TOKENS + CONTEXT
+// ─────────────────────────────────────────────
+const PALETTES = {
+  Electric:  { gt: 'linear-gradient(180deg,#646973 0%,#BBCCD7 100%)', btn: 'linear-gradient(123deg,#18011F 7%,#B600A8 37%,#7621B0 72%,#BE4C00 100%)', btnShad: '0 4px 4px rgba(181,1,167,.25),inset 4px 4px 12px #7721B1', accent: '#D7E2EA' },
+  'Neon Blue':{ gt: 'linear-gradient(180deg,#1A3A5C 0%,#7EC8E3 100%)', btn: 'linear-gradient(123deg,#001B33 7%,#0055FF 37%,#00BFFF 72%,#00E5CC 100%)', btnShad: '0 4px 4px rgba(0,85,255,.25),inset 4px 4px 12px #0066CC', accent: '#7EC8E3' },
+  Solar:     { gt: 'linear-gradient(180deg,#6B3A10 0%,#F5C842 100%)', btn: 'linear-gradient(123deg,#1A0800 7%,#FF6B00 37%,#FF9F00 72%,#FFD600 100%)', btnShad: '0 4px 4px rgba(255,107,0,.25),inset 4px 4px 12px #CC5500', accent: '#F5C842' },
+  Ghost:     { gt: 'linear-gradient(180deg,#444444 0%,#CCCCCC 100%)', btn: 'linear-gradient(123deg,#111 7%,#555 37%,#888 72%,#333 100%)', btnShad: '0 4px 4px rgba(0,0,0,.4),inset 4px 4px 12px #444', accent: '#CCCCCC' },
+};
+const MOTION_CFG = {
+  Subtle:    { yMult: 0.33, dur: 0.4,  marq: 0.15 },
+  Balanced:  { yMult: 1,    dur: 0.7,  marq: 0.3  },
+  Cinematic: { yMult: 2,    dur: 1.1,  marq: 0.45 },
+};
+const DENSITY_CFG = { Tight: 0.65, Comfortable: 1, Airy: 1.5 };
+const DesignCtx = React.createContext({ pal: null, mot: null, den: 1 });
+function useDesign() {
+  const ctx = React.useContext(DesignCtx);
+  return { pal: ctx.pal || PALETTES.Electric, mot: ctx.mot || MOTION_CFG.Balanced, den: ctx.den !== undefined ? ctx.den : 1 };
+}
+const GT = { background: 'var(--gt)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' };
+const KN = "'Kanit', sans-serif";
+
+// ─────────────────────────────────────────────
+// MOTION COMPONENT CACHE
+// ─────────────────────────────────────────────
+const _mc = {};
+function mc(tag) {
+  if (!_mc[tag]) {
+    const M = window.Motion;
+    _mc[tag] = (M && M.motion && M.motion[tag]) ? M.motion[tag] : tag;
+  }
+  return _mc[tag];
+}
+
+// ─────────────────────────────────────────────
+// FADEIN
+// ─────────────────────────────────────────────
+function FadeIn({ children, delay = 0, duration, x = 0, y = 30, style, className }) {
+  const [visible, setVisible] = React.useState(false);
+  const ref = React.useRef(null);
+  const { mot } = useDesign();
+  const baseDur = duration !== undefined ? duration : 0.7;
+  const dur = baseDur * (mot.dur / 0.7);
+  const ay = y * mot.yMult;
+  const ax = x * mot.yMult;
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const trigger = () => requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 50 && rect.bottom > -50) { trigger(); return; }
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { trigger(); obs.disconnect(); }
+    }, { rootMargin: '50px 0px', threshold: 0 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return React.createElement('div', {
+    ref, className,
+    style: {
+      ...style,
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translate(0,0)' : 'translate(' + ax + 'px,' + ay + 'px)',
+      transition: 'opacity ' + dur + 's cubic-bezier(0.25,0.1,0.25,1) ' + delay + 's, transform ' + dur + 's cubic-bezier(0.25,0.1,0.25,1) ' + delay + 's',
+    },
+  }, children);
+}
+
+// ─────────────────────────────────────────────
+// MAGNET
+// ─────────────────────────────────────────────
+function Magnet({ children, padding = 150, strength = 3 }) {
+  const [pos, setPos] = React.useState({ x: 0, y: 0 });
+  const [active, setActive] = React.useState(false);
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const h = (e) => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const dx = e.clientX - cx, dy = e.clientY - cy;
+      const ok = Math.abs(dx) < r.width / 2 + padding && Math.abs(dy) < r.height / 2 + padding;
+      setActive(ok);
+      setPos(ok ? { x: dx / strength, y: dy / strength } : { x: 0, y: 0 });
+    };
+    window.addEventListener('mousemove', h);
+    return () => window.removeEventListener('mousemove', h);
+  }, [padding, strength]);
+  return React.createElement('div', {
+    ref,
+    style: {
+      transform: 'translate3d(' + pos.x + 'px,' + pos.y + 'px,0)',
+      transition: active ? 'transform 0.3s ease-out' : 'transform 0.6s ease-in-out',
+      willChange: 'transform',
+      display: 'inline-block',
+    },
+  }, children);
+}
+
+// ─────────────────────────────────────────────
+// BUTTONS
+// ─────────────────────────────────────────────
+function ContactButton({ center = false }) {
+  return React.createElement('div', {
+    style: { display: 'flex', flexDirection: 'column', alignItems: center ? 'center' : 'flex-end', gap: '10px' },
+  },
+    React.createElement('a', {
+      href: 'mailto:sarthak.nitw@gmail.com',
+      style: {
+        borderRadius: '9999px',
+        background: 'var(--btn)',
+        boxShadow: 'var(--btn-shad)',
+        outline: '2px solid #fff',
+        outlineOffset: '-3px',
+        color: '#fff',
+        fontFamily: KN,
+        fontWeight: 500,
+        textTransform: 'uppercase',
+        letterSpacing: '0.1em',
+        padding: 'clamp(12px,1.5vw,16px) clamp(32px,3vw,48px)',
+        fontSize: 'clamp(0.75rem,1vw,1rem)',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        display: 'inline-block',
+      },
+    }, 'Contact Me'),
+    React.createElement('a', {
+      href: 'tel:+918433164275',
+      style: {
+        color: 'var(--accent)',
+        fontFamily: KN,
+        fontWeight: 300,
+        fontSize: 'clamp(0.7rem,1vw,0.9rem)',
+        letterSpacing: '0.08em',
+        textDecoration: 'none',
+        opacity: 0.75,
+        transition: 'opacity 0.2s',
+      },
+      onMouseEnter: e => { e.currentTarget.style.opacity = '1'; },
+      onMouseLeave: e => { e.currentTarget.style.opacity = '0.75'; },
+    }, '+91 84331 64275')
+  );
+}
+
+function LiveProjectButton() {
+  const [hov, setHov] = React.useState(false);
+  return React.createElement('button', {
+    onMouseEnter: () => setHov(true),
+    onMouseLeave: () => setHov(false),
+    style: {
+      borderRadius: '9999px',
+      border: '2px solid var(--accent)',
+      background: hov ? 'rgba(255,255,255,0.08)' : 'transparent',
+      color: 'var(--accent)',
+      fontFamily: KN,
+      fontWeight: 500,
+      textTransform: 'uppercase',
+      letterSpacing: '0.1em',
+      padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+      fontSize: 'clamp(0.8rem,1vw,1rem)',
+      cursor: 'pointer',
+      transition: 'background 0.2s',
+      whiteSpace: 'nowrap',
+    },
+  }, 'Live Project');
+}
+
+// ─────────────────────────────────────────────
+// ANIMATED TEXT (char-by-char scroll reveal)
+// ─────────────────────────────────────────────
+function CharSpan({ char, progress, index, total }) {
+  const M = window.Motion;
+  const opacity = M.useTransform(progress, [index / total, Math.min((index + 1) / total, 1)], [0.2, 1]);
+  const MotionSpan = mc('span');
+  return React.createElement('span', { style: { position: 'relative', display: 'inline-block' } },
+    React.createElement('span', { style: { opacity: 0, userSelect: 'none' } }, char === ' ' ? ' ' : char),
+    React.createElement(MotionSpan, {
+      style: { opacity, position: 'absolute', left: 0, top: 0, userSelect: 'none' },
+    }, char === ' ' ? ' ' : char)
+  );
+}
+
+function AnimatedTextInner({ text, textStyle }) {
+  const ref = React.useRef(null);
+  const M = window.Motion;
+  const { scrollYProgress } = M.useScroll({ target: ref, offset: ['start 0.8', 'end 0.2'] });
+  const chars = text.split('');
+  return React.createElement('p', { ref, style: textStyle },
+    chars.map((c, i) => React.createElement(CharSpan, { key: i, char: c, progress: scrollYProgress, index: i, total: chars.length }))
+  );
+}
+
+function AnimatedText({ text, textStyle }) {
+  const M = window.Motion;
+  if (!M || !M.useScroll) return React.createElement('p', { style: textStyle }, text);
+  return React.createElement(AnimatedTextInner, { text, textStyle });
+}
+
+// ─────────────────────────────────────────────
+// HERO SECTION
+// ─────────────────────────────────────────────
+function HeroSection() {
+  return React.createElement('section', {
+    style: {
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative',
+      overflow: 'hidden',
+      background: '#0C0C0C',
+    },
+  },
+    // Navbar
+    React.createElement(FadeIn, { delay: 0, y: -20 },
+      React.createElement('nav', {
+        style: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: 'clamp(24px,3vw,32px) clamp(24px,4vw,40px) 0',
+        },
+      },
+        ['About', 'Price', 'Projects', 'Contact'].map(l =>
+          React.createElement('a', {
+            key: l,
+            href: '#' + l.toLowerCase(),
+            style: {
+              color: 'var(--accent)',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontSize: 'clamp(0.875rem,1.4vw,1.4rem)',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+              fontFamily: KN,
+            },
+            onMouseEnter: e => { e.currentTarget.style.opacity = '.7'; },
+            onMouseLeave: e => { e.currentTarget.style.opacity = '1'; },
+          }, l)
+        )
+      )
+    ),
+
+    // Heading
+    React.createElement(FadeIn, { delay: 0.15, y: 40 },
+      React.createElement('div', { style: { overflow: 'hidden' } },
+        React.createElement('h1', {
+          style: {
+            ...GT,
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            whiteSpace: 'nowrap',
+            width: '100%',
+            fontSize: 'clamp(13vw,17.5vw,17.5vw)',
+            marginTop: 'clamp(-20px,calc(-1.5vw + 4px),24px)',
+            display: 'block',
+            fontFamily: KN,
+          },
+        }, "Hi, i’m Sarthak")
+      )
+    ),
+
+    // Flex spacer
+    React.createElement('div', { style: { flex: 1 } }),
+
+    // Bottom bar
+    React.createElement('div', {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        padding: '0 clamp(24px,4vw,40px) clamp(28px,3vw,40px)',
+        position: 'relative',
+        zIndex: 20,
+      },
+    },
+      React.createElement(FadeIn, { delay: 0.35, y: 20 },
+        React.createElement('p', {
+          style: {
+            color: 'var(--accent)',
+            fontWeight: 300,
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            lineHeight: 1.4,
+            fontSize: 'clamp(0.75rem,1.4vw,1.5rem)',
+            maxWidth: 'clamp(160px,18vw,260px)',
+            fontFamily: KN,
+          },
+        }, 'a digital creator building striking products, brands, and experiences')
+      ),
+      React.createElement(FadeIn, { delay: 0.5, y: 20 },
+        React.createElement(ContactButton)
+      )
+    ),
+
+    // Portrait (absolutely centered)
+    React.createElement('div', {
+      style: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        bottom: 0,
+        zIndex: 10,
+        pointerEvents: 'none',
+      },
+    },
+      React.createElement(FadeIn, { delay: 0.6, y: 30, style: { pointerEvents: 'auto' } },
+        React.createElement(Magnet, { padding: 150, strength: 3 },
+          React.createElement('img', {
+            src: 'https://i.postimg.cc/ydt8K2VT/Whats-App-Image-2026-06-29-at-17-28-56-removebg-preview.png',
+            alt: 'Sarthak',
+            style: {
+              width: 'clamp(280px,36vw,520px)',
+              display: 'block',
+              objectFit: 'contain',
+            },
+          })
+        )
+      )
+    )
+  );
+}
+
+// ─────────────────────────────────────────────
+// MARQUEE SECTION
+// ─────────────────────────────────────────────
+function MarqueeSection() {
+  const [offset, setOffset] = React.useState(0);
+  const ref = React.useRef(null);
+  const { mot } = useDesign();
+
+  React.useEffect(() => {
+    const speed = mot.marq;
+    const handle = () => {
+      if (!ref.current) return;
+      const sectionTop = ref.current.getBoundingClientRect().top + window.scrollY;
+      setOffset((window.scrollY - sectionTop + window.innerHeight) * speed);
+    };
+    window.addEventListener('scroll', handle, { passive: true });
+    handle();
+    return () => window.removeEventListener('scroll', handle);
+  }, [mot.marq]);
+
+  const r1 = IMAGES.slice(0, 11);
+  const r2 = IMAGES.slice(11);
+  const r1t = [...r1, ...r1, ...r1];
+  const r2t = [...r2, ...r2, ...r2];
+  const imgS = {
+    width: '420px', height: '270px',
+    borderRadius: '16px', objectFit: 'cover', flexShrink: 0,
+  };
+
+  return React.createElement('section', {
+    ref,
+    style: {
+      background: '#0C0C0C',
+      paddingTop: 'clamp(96px,10vw,160px)',
+      paddingBottom: '40px',
+      overflow: 'hidden',
+    },
+  },
+    React.createElement('div', {
+      style: {
+        display: 'flex', gap: '12px', marginBottom: '12px',
+        transform: 'translateX(' + (offset - 200) + 'px)',
+        willChange: 'transform',
+      },
+    }, r1t.map((s, i) => React.createElement('img', { key: i, src: s, loading: 'lazy', style: imgS, alt: '' }))),
+    React.createElement('div', {
+      style: {
+        display: 'flex', gap: '12px',
+        transform: 'translateX(' + (-(offset - 200)) + 'px)',
+        willChange: 'transform',
+      },
+    }, r2t.map((s, i) => React.createElement('img', { key: i, src: s, loading: 'lazy', style: imgS, alt: '' })))
+  );
+}
+
+// ─────────────────────────────────────────────
+// ABOUT SECTION
+// ─────────────────────────────────────────────
+function AboutSection() {
+  const ABOUT_TEXT = "I'm Sarthak — a digital creator who blends design, development, and strategy to build products that actually perform. I work with brands and founders on everything from web design and app development to branding, social media, and SEO. If you want a strong digital presence that stands out and converts, let's build something great together.";
+
+  function DecImg({ src, posStyle, fadeProps }) {
+    return React.createElement('div', { style: { position: 'absolute', zIndex: 1, pointerEvents: 'none', ...posStyle } },
+      React.createElement(FadeIn, fadeProps,
+        React.createElement('img', { src, alt: '', style: { width: 'clamp(100px,13vw,210px)', display: 'block' } })
+      )
+    );
+  }
+
+  return React.createElement('section', {
+    id: 'about',
+    style: {
+      background: '#0C0C0C',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 'clamp(80px,8vw,80px) clamp(20px,4vw,40px)',
+      position: 'relative',
+    },
+  },
+    React.createElement(DecImg, {
+      src: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png',
+      posStyle: { top: '4%', left: '4%' },
+      fadeProps: { delay: 0.1, x: -80, y: 0, duration: 0.9 },
+    }),
+    React.createElement(DecImg, {
+      src: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png',
+      posStyle: { bottom: '8%', left: '10%' },
+      fadeProps: { delay: 0.25, x: -80, y: 0, duration: 0.9 },
+    }),
+    React.createElement(DecImg, {
+      src: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png',
+      posStyle: { top: '4%', right: '4%' },
+      fadeProps: { delay: 0.15, x: 80, y: 0, duration: 0.9 },
+    }),
+    React.createElement(DecImg, {
+      src: 'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png',
+      posStyle: { bottom: '8%', right: '10%' },
+      fadeProps: { delay: 0.3, x: 80, y: 0, duration: 0.9 },
+    }),
+    React.createElement('div', {
+      style: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        gap: 'clamp(40px,5vw,64px)', zIndex: 10, position: 'relative', width: '100%',
+      },
+    },
+      React.createElement(FadeIn, { delay: 0, y: 40 },
+        React.createElement('h2', {
+          style: {
+            ...GT, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1,
+            letterSpacing: '-0.02em', textAlign: 'center',
+            fontSize: 'clamp(3rem,12vw,160px)', fontFamily: KN,
+          },
+        }, 'About me')
+      ),
+      React.createElement('div', {
+        style: {
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          gap: 'clamp(64px,6vw,96px)',
+        },
+      },
+        React.createElement(AnimatedText, {
+          text: ABOUT_TEXT,
+          textStyle: {
+            color: 'var(--accent)', fontWeight: 500, textAlign: 'center',
+            lineHeight: 1.6, maxWidth: '560px',
+            fontSize: 'clamp(1rem,2vw,1.35rem)', fontFamily: KN,
+          },
+        }),
+        React.createElement(ContactButton, { center: true })
+      )
+    )
+  );
+}
+
+// ─────────────────────────────────────────────
+// SERVICES SECTION
+// ─────────────────────────────────────────────
+function ServiceItem({ item, index }) {
+  const isLast = index === SERVICES.length - 1;
+  return React.createElement(FadeIn, { delay: index * 0.1, y: 30 },
+    React.createElement('div', {
+      style: {
+        display: 'flex', alignItems: 'flex-start',
+        gap: 'clamp(16px,3vw,48px)',
+        padding: 'calc(clamp(32px,3.5vw,48px) * var(--den,1)) 0',
+        borderTop: '1px solid rgba(12,12,12,.15)',
+        borderBottom: isLast ? '1px solid rgba(12,12,12,.15)' : 'none',
+      },
+    },
+      React.createElement('div', {
+        style: {
+          fontWeight: 900, fontSize: 'clamp(3rem,10vw,140px)', color: '#0C0C0C',
+          lineHeight: 1, flexShrink: 0, minWidth: 'clamp(60px,10vw,140px)', fontFamily: KN,
+        },
+      }, item.num),
+      React.createElement('div', {
+        style: { display: 'flex', flexDirection: 'column', gap: '6px', paddingTop: 'clamp(4px,0.8vw,14px)' },
+      },
+        React.createElement('h3', {
+          style: {
+            fontWeight: 500, textTransform: 'uppercase',
+            fontSize: 'clamp(1rem,2.2vw,2.1rem)', color: '#0C0C0C', fontFamily: KN,
+          },
+        }, item.name),
+        React.createElement('p', {
+          style: {
+            fontWeight: 300, lineHeight: 1.6, maxWidth: '42rem',
+            fontSize: 'clamp(0.85rem,1.6vw,1.25rem)', opacity: 0.6,
+            color: '#0C0C0C', fontFamily: KN,
+          },
+        }, item.desc)
+      )
+    )
+  );
+}
+
+function ServicesSection() {
+  return React.createElement('section', {
+    id: 'services',
+    style: {
+      background: '#fff',
+      borderRadius: 'clamp(40px,5vw,60px) clamp(40px,5vw,60px) 0 0',
+      padding: 'calc(clamp(80px,8vw,128px) * var(--den,1)) clamp(20px,4vw,40px)',
+    },
+  },
+    React.createElement('h2', {
+      style: {
+        fontWeight: 900, textTransform: 'uppercase', textAlign: 'center',
+        fontSize: 'clamp(3rem,12vw,160px)', color: '#0C0C0C',
+        marginBottom: 'clamp(64px,7vw,112px)',
+        fontFamily: KN, lineHeight: 1, letterSpacing: '-0.02em',
+      },
+    }, 'Services'),
+    React.createElement('div', { style: { maxWidth: '896px', margin: '0 auto' } },
+      SERVICES.map((item, i) => React.createElement(ServiceItem, { key: i, item, index: i }))
+    )
+  );
+}
+
+// ─────────────────────────────────────────────
+// PROJECTS SECTION
+// ─────────────────────────────────────────────
+function ProjectCardContent({ project }) {
+  const imgRadius = 'clamp(20px,3vw,50px)';
+  return React.createElement('div', {
+    style: {
+      borderRadius: 'clamp(30px,4vw,60px)',
+      border: '2px solid var(--accent)',
+      background: '#0C0C0C',
+      padding: 'clamp(16px,2vw,32px)',
+    },
+  },
+    // Top row: number + info + button
+    React.createElement('div', {
+      style: {
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: 'clamp(12px,1.5vw,24px)', flexWrap: 'wrap', gap: '12px',
+      },
+    },
+      React.createElement('div', {
+        style: { display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,24px)' },
+      },
+        React.createElement('span', {
+          style: {
+            ...GT, fontWeight: 900, fontSize: 'clamp(2.5rem,7vw,110px)',
+            lineHeight: 1, fontFamily: KN,
+          },
+        }, project.num),
+        React.createElement('div', {},
+          React.createElement('p', {
+            style: {
+              color: 'var(--accent)', opacity: 0.6, textTransform: 'uppercase',
+              fontSize: 'clamp(0.7rem,1vw,0.9rem)', letterSpacing: '0.1em',
+              fontFamily: KN, fontWeight: 300,
+            },
+          }, project.type),
+          React.createElement('h3', {
+            style: {
+              color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase',
+              fontSize: 'clamp(1.1rem,2.5vw,2.2rem)', fontFamily: KN, lineHeight: 1.1,
+            },
+          }, project.name)
+        )
+      ),
+      React.createElement(LiveProjectButton)
+    ),
+    // Image grid
+    React.createElement('div', { style: { display: 'flex', gap: 'clamp(8px,1vw,16px)' } },
+      React.createElement('div', {
+        style: {
+          width: '40%', display: 'flex', flexDirection: 'column',
+          gap: 'clamp(8px,1vw,16px)',
+        },
+      },
+        React.createElement('img', {
+          src: project.c1i1, alt: '',
+          style: { width: '100%', height: 'clamp(130px,16vw,230px)', borderRadius: imgRadius, objectFit: 'cover', display: 'block' },
+        }),
+        React.createElement('img', {
+          src: project.c1i2, alt: '',
+          style: { width: '100%', height: 'clamp(160px,22vw,340px)', borderRadius: imgRadius, objectFit: 'cover', display: 'block' },
+        })
+      ),
+      React.createElement('div', { style: { width: '60%' } },
+        React.createElement('img', {
+          src: project.c2, alt: '',
+          style: {
+            width: '100%', height: '100%',
+            minHeight: 'clamp(290px,38vw,580px)',
+            borderRadius: imgRadius, objectFit: 'cover', display: 'block',
+          },
+        })
+      )
+    )
+  );
+}
+
+function ProjectCardMotion({ project, index, total, scrollProgress }) {
+  const M = window.Motion;
+  const targetScale = 1 - (total - 1 - index) * 0.03;
+  const scale = M.useTransform(scrollProgress, [index / total, 1], [1, targetScale]);
+  const Mdiv = mc('div');
+  return React.createElement('div', { style: { height: '85vh' } },
+    React.createElement(Mdiv, {
+      style: {
+        position: 'sticky',
+        top: (96 + index * 28) + 'px',
+        scale,
+        willChange: 'transform',
+        transformOrigin: 'top center',
+      },
+    }, React.createElement(ProjectCardContent, { project }))
+  );
+}
+
+function ProjectCard({ project, index, total, scrollProgress }) {
+  if (!scrollProgress) {
+    return React.createElement('div', { style: { marginBottom: '40px' } },
+      React.createElement(ProjectCardContent, { project })
+    );
+  }
+  return React.createElement(ProjectCardMotion, { project, index, total, scrollProgress });
+}
+
+function ProjectsSectionInner() {
+  const ref = React.useRef(null);
+  const M = window.Motion;
+  const { scrollYProgress } = M.useScroll({ target: ref, offset: ['start start', 'end end'] });
+
+  return React.createElement('section', {
+    ref,
+    id: 'projects',
+    style: {
+      background: '#0C0C0C',
+      borderRadius: 'clamp(40px,5vw,60px) clamp(40px,5vw,60px) 0 0',
+      marginTop: 'clamp(-56px,-3.5vw,-40px)',
+      position: 'relative',
+      zIndex: 10,
+      padding: 'clamp(64px,6vw,80px) clamp(20px,4vw,40px) clamp(80px,8vw,120px)',
+    },
+  },
+    React.createElement('h2', {
+      style: {
+        ...GT, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1,
+        letterSpacing: '-0.02em', textAlign: 'center',
+        fontSize: 'clamp(3rem,12vw,160px)', marginBottom: 'clamp(40px,4vw,64px)',
+        fontFamily: KN,
+      },
+    }, 'Project'),
+    React.createElement('div', { style: { maxWidth: '1280px', margin: '0 auto' } },
+      PROJECTS.map((p, i) => React.createElement(ProjectCard, {
+        key: i, project: p, index: i, total: PROJECTS.length,
+        scrollProgress: scrollYProgress,
+      }))
+    )
+  );
+}
+
+function ProjectsSection() {
+  const M = window.Motion;
+  if (!M || !M.useScroll) {
+    return React.createElement('section', {
+      id: 'projects',
+      style: {
+        background: '#0C0C0C',
+        borderRadius: 'clamp(40px,5vw,60px) clamp(40px,5vw,60px) 0 0',
+        marginTop: 'clamp(-56px,-3.5vw,-40px)',
+        position: 'relative', zIndex: 10,
+        padding: 'clamp(64px,6vw,80px) clamp(20px,4vw,40px)',
+      },
+    },
+      React.createElement('h2', {
+        style: {
+          ...GT, fontWeight: 900, textTransform: 'uppercase', lineHeight: 1,
+          letterSpacing: '-0.02em', textAlign: 'center',
+          fontSize: 'clamp(3rem,12vw,160px)', marginBottom: 'clamp(40px,4vw,64px)', fontFamily: KN,
+        },
+      }, 'Project'),
+      React.createElement('div', { style: { maxWidth: '1280px', margin: '0 auto' } },
+        PROJECTS.map((p, i) => React.createElement(ProjectCard, {
+          key: i, project: p, index: i, total: PROJECTS.length, scrollProgress: null,
+        }))
+      )
+    );
+  }
+  return React.createElement(ProjectsSectionInner);
+}
+
+// ─────────────────────────────────────────────
+// MAIN APP
+// ─────────────────────────────────────────────
+function PortfolioApp({ palette, motionIntensity, density }) {
+  const pal = PALETTES[palette] || PALETTES.Electric;
+  const mot = MOTION_CFG[motionIntensity] || MOTION_CFG.Balanced;
+  const den = DENSITY_CFG[density] !== undefined ? DENSITY_CFG[density] : 1;
+  return React.createElement(DesignCtx.Provider, { value: { pal, mot, den } },
+    React.createElement('div', {
+      style: {
+        background: '#0C0C0C',
+        fontFamily: KN,
+        overflowX: 'clip',
+        minHeight: '100vh',
+        '--gt': pal.gt,
+        '--btn': pal.btn,
+        '--btn-shad': pal.btnShad,
+        '--accent': pal.accent,
+        '--den': String(den),
+      },
+    },
+      React.createElement(HeroSection),
+      React.createElement(MarqueeSection),
+      React.createElement(AboutSection),
+      React.createElement(ServicesSection),
+      React.createElement(ProjectsSection)
+    )
+  );
+}
+
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+ReactDOM.createRoot(document.getElementById('root')).render(
+  React.createElement(PortfolioApp, {
+    palette: 'Electric',
+    motionIntensity: 'Balanced',
+    density: 'Comfortable',
+  })
+);
+</script>
+</body>
+</html>
