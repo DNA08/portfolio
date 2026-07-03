@@ -694,11 +694,11 @@ function ServicesSection() {
 const LIVE_PROJECTS = [
   {
     num: '01',
-    name: 'ARM.DEV',
-    type: 'Client · Portfolio',
-    desc: 'Space-themed personal portfolio for Aman Raj Mahajan — an instructional designer & AI content developer. Features animated particle canvas, interactive orb navigation, and a full career timeline.',
-    url: 'https://famous-youtiao-0d4874.netlify.app/',
-    tags: ['Web Design', 'Dev', 'UI/UX'],
+    name: 'SS Shopping App',
+    type: 'Client · Mobile App',
+    desc: 'Plus-size fashion app for SS Shopping — shop Tops, Suits, Nightsuits, Cordsets, Dresses & more. Sizes from 48, free delivery, 7-day easy exchange, UPI/Card/COD via Razorpay.',
+    tags: ['Mobile App', 'E-Commerce', 'UI/UX'],
+    appScreenshots: [],
   },
   {
     num: '02',
@@ -714,6 +714,14 @@ const LIVE_PROJECTS = [
       'https://ssshoppingsite.com/collections/sale',
       'https://ssshoppingsite.com/collections/plus-size-top',
     ],
+  },
+  {
+    num: '03',
+    name: 'ARM.DEV',
+    type: 'Client · Portfolio',
+    desc: 'Space-themed personal portfolio for Aman Raj Mahajan — an instructional designer & AI content developer. Features animated particle canvas, interactive orb navigation, and a full career timeline.',
+    url: 'https://famous-youtiao-0d4874.netlify.app/',
+    tags: ['Web Design', 'Dev', 'UI/UX'],
   },
 ];
 
@@ -877,6 +885,151 @@ function LiveIframePreview({ url, name, radius }) {
   );
 }
 
+function PhoneCarousel({ screenshots, name, radius, storeUrl }) {
+  const [active, setActive] = React.useState(0);
+  const [fading, setFading] = React.useState(false);
+  const hasShots = screenshots && screenshots.length > 0;
+
+  React.useEffect(() => {
+    if (!hasShots || screenshots.length <= 1) return;
+    const iv = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setActive(a => (a + 1) % screenshots.length);
+        setFading(false);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(iv);
+  }, [hasShots, screenshots]);
+
+  return React.createElement('div', {
+    style: {
+      width: '100%',
+      height: 'clamp(290px,38vw,580px)',
+      borderRadius: radius,
+      overflow: 'hidden',
+      background: 'linear-gradient(135deg, #1a0515 0%, #0d0310 60%, #12050e 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+    },
+  },
+    // ambient glow
+    React.createElement('div', {
+      style: {
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: 'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(232,64,160,0.13) 0%, transparent 70%)',
+      },
+    }),
+    // phone shell
+    React.createElement('div', {
+      style: {
+        position: 'relative',
+        width: 'clamp(140px,16vw,220px)',
+        height: 'clamp(272px,31vw,428px)',
+        flexShrink: 0,
+        zIndex: 1,
+      },
+    },
+      // side buttons
+      React.createElement('div', { style: { position: 'absolute', left: '-4px', top: '80px', width: '3px', height: '30px', background: '#252525', borderRadius: '2px' } }),
+      React.createElement('div', { style: { position: 'absolute', left: '-4px', top: '120px', width: '3px', height: '50px', background: '#252525', borderRadius: '2px' } }),
+      React.createElement('div', { style: { position: 'absolute', right: '-4px', top: '100px', width: '3px', height: '62px', background: '#252525', borderRadius: '2px' } }),
+      // outer frame
+      React.createElement('div', {
+        style: {
+          position: 'absolute', inset: 0,
+          borderRadius: '36px',
+          background: '#111',
+          border: '2px solid #282828',
+          boxShadow: '0 0 0 1px rgba(255,255,255,0.04), 0 40px 80px rgba(0,0,0,0.9), 0 0 60px rgba(232,64,160,0.18)',
+          overflow: 'hidden',
+        },
+      },
+        // dynamic island
+        React.createElement('div', {
+          style: {
+            position: 'absolute', top: '10px', left: '50%', transform: 'translateX(-50%)',
+            width: '70px', height: '18px', background: '#000', borderRadius: '12px', zIndex: 10,
+          },
+        }),
+        // home indicator
+        React.createElement('div', {
+          style: {
+            position: 'absolute', bottom: '6px', left: '50%', transform: 'translateX(-50%)',
+            width: '50px', height: '4px', background: 'rgba(255,255,255,0.22)', borderRadius: '4px', zIndex: 10,
+          },
+        }),
+        // screen: real screenshot or branded placeholder
+        hasShots
+          ? React.createElement('img', {
+              src: screenshots[active],
+              alt: name,
+              style: {
+                position: 'absolute', inset: 0, width: '100%', height: '100%',
+                objectFit: 'cover',
+                opacity: fading ? 0 : 1,
+                transition: 'opacity 0.3s ease',
+              },
+            })
+          : React.createElement('div', {
+              style: {
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(160deg, #9d1a6e 0%, #e040a0 45%, #f06db5 100%)',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center', gap: '6px',
+                paddingTop: '36px', paddingBottom: '20px',
+              },
+            },
+              React.createElement('div', {
+                style: { fontFamily: KN, fontWeight: 900, color: '#fff', fontSize: 'clamp(36px,5vw,58px)', lineHeight: 1, letterSpacing: '-0.02em' },
+              }, 'SS'),
+              React.createElement('div', {
+                style: { fontFamily: KN, fontWeight: 300, color: 'rgba(255,255,255,0.8)', fontSize: 'clamp(8px,1vw,11px)', letterSpacing: '0.28em', textTransform: 'uppercase' },
+              }, 'SHOPPING'),
+              React.createElement('div', { style: { width: '36px', height: '1px', background: 'rgba(255,255,255,0.35)', margin: '10px 0' } }),
+              React.createElement('div', {
+                style: { fontFamily: KN, fontWeight: 300, color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(6px,0.8vw,9px)', letterSpacing: '0.2em', textTransform: 'uppercase' },
+              }, 'Plus Size Fashion')
+            )
+      )
+    ),
+    // dot indicators
+    hasShots && screenshots.length > 1 && React.createElement('div', {
+      style: {
+        position: 'absolute', bottom: '18px', left: '50%', transform: 'translateX(-50%)',
+        display: 'flex', gap: '6px', zIndex: 5,
+      },
+    },
+      screenshots.map((_, i) =>
+        React.createElement('button', {
+          key: i,
+          onClick: () => { setFading(false); setActive(i); },
+          style: {
+            width: i === active ? '20px' : '6px', height: '6px',
+            borderRadius: '9999px', border: 'none', padding: 0,
+            background: i === active ? '#e840a0' : 'rgba(255,255,255,0.3)',
+            transition: 'all 0.3s ease', cursor: 'pointer',
+          },
+        })
+      )
+    ),
+    // play store badge if storeUrl set
+    storeUrl && React.createElement('a', {
+      href: storeUrl, target: '_blank', rel: 'noopener noreferrer',
+      style: {
+        position: 'absolute', bottom: hasShots && screenshots.length > 1 ? '46px' : '18px',
+        left: '50%', transform: 'translateX(-50%)',
+        background: 'rgba(12,12,12,0.75)', border: '1px solid rgba(232,64,160,0.35)',
+        borderRadius: '9999px', color: '#e840a0', fontFamily: KN, fontWeight: 500,
+        fontSize: 'clamp(0.6rem,0.85vw,0.8rem)', letterSpacing: '0.1em', textTransform: 'uppercase',
+        padding: '7px 18px', textDecoration: 'none', whiteSpace: 'nowrap', zIndex: 5,
+      },
+    }, 'Get on Google Play ↗')
+  );
+}
+
 function LiveCard({ project }) {
   const [hov, setHov] = React.useState(false);
   const imgRadius = 'clamp(16px,2vw,28px)';
@@ -940,8 +1093,8 @@ function LiveCard({ project }) {
           )
         )
       ),
-      React.createElement('a', {
-        href: project.url,
+      (project.url || project.storeUrl) ? React.createElement('a', {
+        href: project.storeUrl || project.url,
         target: '_blank',
         rel: 'noopener noreferrer',
         onMouseEnter: () => setHov(true),
@@ -962,7 +1115,7 @@ function LiveCard({ project }) {
           textDecoration: 'none',
           display: 'inline-block',
         },
-      }, 'View Project ↗')
+      }, project.storeUrl ? 'Get the App ↗' : 'View Project ↗') : null
     ),
     // Description
     React.createElement('p', {
@@ -975,10 +1128,12 @@ function LiveCard({ project }) {
         letterSpacing: '0.02em',
       },
     }, project.desc),
-    // Full-width preview: marquee for sites that block iframes, iframe for others
-    project.pages
-      ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url })
-      : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
+    // Full-width preview: phone carousel for apps, marquee for embed-blocked sites, iframe for others
+    project.appScreenshots !== undefined
+      ? React.createElement(PhoneCarousel, { screenshots: project.appScreenshots, name: project.name, radius: imgRadius, storeUrl: project.storeUrl })
+      : project.pages
+        ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url })
+        : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
   );
 }
 
@@ -1187,7 +1342,7 @@ function ProjectsSection() {
         React.createElement(LiveCard, { project: LIVE_PROJECTS[1] })
       ),
       React.createElement(FadeIn, { key: 2, delay: 0.3, y: 40 },
-        React.createElement(ComingSoonCard, { num: '03', index: 2 })
+        React.createElement(LiveCard, { project: LIVE_PROJECTS[2] })
       )
     )
   );
