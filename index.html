@@ -698,12 +698,9 @@ const LIVE_PROJECTS = [
     type: 'Client · Mobile App',
     desc: 'Plus-size fashion app for SS Shopping — shop Tops, Suits, Nightsuits, Cordsets, Dresses & more. Sizes from 48, free delivery, 7-day easy exchange, UPI/Card/COD via Razorpay.',
     tags: ['Mobile App', 'E-Commerce', 'UI/UX'],
-    appScreenshots: [
-      'https://i.ibb.co/RTQZ895w/SSShopping-App-Logo.jpg',
-      'https://i.ibb.co/TM6R7Jn5/Whats-App-Image-2026-06-28-at-17-28-21.jpg',
-      'https://i.ibb.co/XfcPkM17/Whats-App-Image-2026-06-28-at-17-28-22.jpg',
-      'https://i.ibb.co/WS6VxX8/Whats-App-Image-2026-07-01-at-18-13-36.jpg',
-    ],
+    logoUrl: 'https://i.ibb.co/RTQZ895w/SSShopping-App-Logo.jpg',
+    featureUrl: 'https://i.ibb.co/WS6VxX8/Whats-App-Image-2026-07-01-at-18-13-36.jpg',
+    storeComingSoon: true,
   },
   {
     num: '02',
@@ -1035,6 +1032,70 @@ function PhoneCarousel({ screenshots, name, radius, storeUrl }) {
   );
 }
 
+function AppStaticBanner({ logoUrl, featureUrl, name, radius, storeComingSoon }) {
+  return React.createElement('div', {
+    style: {
+      width: '100%',
+      height: 'clamp(290px,38vw,580px)',
+      borderRadius: radius,
+      overflow: 'hidden',
+      display: 'flex',
+      background: '#0a0a0a',
+    },
+  },
+    // Logo panel
+    React.createElement('div', {
+      style: {
+        width: '38%',
+        flexShrink: 0,
+        background: 'linear-gradient(135deg, #f97316 0%, #fb923c 55%, #fbbf24 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 'clamp(16px,3vw,40px)',
+      },
+    },
+      React.createElement('img', {
+        src: logoUrl,
+        alt: name + ' logo',
+        style: { width: '100%', height: '100%', objectFit: 'contain', borderRadius: '16px' },
+      })
+    ),
+    // Divider
+    React.createElement('div', { style: { width: '2px', background: 'rgba(255,255,255,0.06)', flexShrink: 0 } }),
+    // Feature image
+    React.createElement('div', {
+      style: { flex: 1, position: 'relative', overflow: 'hidden' },
+    },
+      React.createElement('img', {
+        src: featureUrl,
+        alt: name + ' feature',
+        style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' },
+      }),
+      React.createElement('div', {
+        style: {
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.75) 100%)',
+        },
+      }),
+      storeComingSoon && React.createElement('div', {
+        style: {
+          position: 'absolute', bottom: 'clamp(12px,2vw,24px)', right: 'clamp(12px,2vw,24px)',
+          background: 'rgba(10,10,10,0.82)',
+          border: '1px solid rgba(232,64,160,0.45)',
+          borderRadius: '9999px',
+          color: '#e840a0',
+          fontFamily: KN, fontWeight: 500,
+          fontSize: 'clamp(0.55rem,0.8vw,0.78rem)',
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          padding: 'clamp(6px,0.8vw,10px) clamp(14px,1.5vw,22px)',
+          backdropFilter: 'blur(10px)',
+        },
+      }, 'Play Store — Coming Soon')
+    )
+  );
+}
+
 function LiveCard({ project }) {
   const [hov, setHov] = React.useState(false);
   const imgRadius = 'clamp(16px,2vw,28px)';
@@ -1098,29 +1159,45 @@ function LiveCard({ project }) {
           )
         )
       ),
-      (project.url || project.storeUrl) ? React.createElement('a', {
-        href: project.storeUrl || project.url,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-        onMouseEnter: () => setHov(true),
-        onMouseLeave: () => setHov(false),
-        style: {
-          borderRadius: '9999px',
-          border: '2px solid var(--accent)',
-          background: hov ? 'rgba(215,226,234,0.08)' : 'transparent',
-          color: 'var(--accent)',
-          fontFamily: KN, fontWeight: 500,
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
-          fontSize: 'clamp(0.8rem,1vw,1rem)',
-          cursor: 'pointer',
-          transition: 'background 0.2s',
-          whiteSpace: 'nowrap',
-          textDecoration: 'none',
-          display: 'inline-block',
-        },
-      }, project.storeUrl ? 'Get the App ↗' : 'View Project ↗') : null
+      project.storeComingSoon
+        ? React.createElement('span', {
+            style: {
+              borderRadius: '9999px',
+              border: '2px solid rgba(215,226,234,0.2)',
+              color: 'rgba(215,226,234,0.35)',
+              fontFamily: KN, fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+              fontSize: 'clamp(0.8rem,1vw,1rem)',
+              whiteSpace: 'nowrap',
+              display: 'inline-block',
+            },
+          }, 'Play Store — Coming Soon')
+        : (project.url || project.storeUrl) ? React.createElement('a', {
+            href: project.storeUrl || project.url,
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            onMouseEnter: () => setHov(true),
+            onMouseLeave: () => setHov(false),
+            style: {
+              borderRadius: '9999px',
+              border: '2px solid var(--accent)',
+              background: hov ? 'rgba(215,226,234,0.08)' : 'transparent',
+              color: 'var(--accent)',
+              fontFamily: KN, fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+              fontSize: 'clamp(0.8rem,1vw,1rem)',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              whiteSpace: 'nowrap',
+              textDecoration: 'none',
+              display: 'inline-block',
+            },
+          }, project.storeUrl ? 'Get the App ↗' : 'View Project ↗')
+        : null
     ),
     // Description
     React.createElement('p', {
@@ -1133,12 +1210,14 @@ function LiveCard({ project }) {
         letterSpacing: '0.02em',
       },
     }, project.desc),
-    // Full-width preview: phone carousel for apps, marquee for embed-blocked sites, iframe for others
-    project.appScreenshots !== undefined
-      ? React.createElement(PhoneCarousel, { screenshots: project.appScreenshots, name: project.name, radius: imgRadius, storeUrl: project.storeUrl })
-      : project.pages
-        ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url })
-        : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
+    // Full-width preview
+    project.logoUrl
+      ? React.createElement(AppStaticBanner, { logoUrl: project.logoUrl, featureUrl: project.featureUrl, name: project.name, radius: imgRadius, storeComingSoon: project.storeComingSoon })
+      : project.appScreenshots !== undefined
+        ? React.createElement(PhoneCarousel, { screenshots: project.appScreenshots, name: project.name, radius: imgRadius, storeUrl: project.storeUrl })
+        : project.pages
+          ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url })
+          : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
   );
 }
 
