@@ -729,9 +729,26 @@ const LIVE_PROJECTS = [
     url: 'https://famous-youtiao-0d4874.netlify.app/',
     tags: ['Web Design', 'Dev', 'UI/UX'],
   },
+  {
+    num: '04',
+    name: 'Khaira Travels',
+    type: 'Client · Travel',
+    desc: 'A travel agency website for Khaira Travels — showcasing tour packages, dream destinations, and seamless booking experiences designed to inspire every journey.',
+    url: 'https://khaira-travels.pages.dev/',
+    tags: ['Web Design', 'Travel', 'UI/UX'],
+  },
+  {
+    num: '05',
+    name: "Sarji's BeUnique",
+    type: 'Client · Fashion & Lifestyle',
+    desc: "A bold fashion and lifestyle brand website for Sarji's BeUnique — where individual style meets curated, statement fashion identity.",
+    url: 'https://sarjis-beunique.pages.dev/',
+    tags: ['Web Design', 'Fashion', 'Branding'],
+  },
 ];
 
-function ScreenshotMarquee({ pages, name, radius, url }) {
+function ScreenshotMarquee({ pages, name, radius, url, previewH }) {
+  const h = previewH || 'clamp(290px,38vw,580px)';
   const base = 'https://api.microlink.io/?screenshot=true&meta=false&embed=screenshot.url&url=';
   const shots = pages.map(p => base + encodeURIComponent(p));
   const doubled = [...shots, ...shots]; // seamless loop
@@ -739,7 +756,7 @@ function ScreenshotMarquee({ pages, name, radius, url }) {
   return React.createElement('div', {
     style: {
       width: '100%',
-      height: 'clamp(290px,38vw,580px)',
+      height: h,
       borderRadius: radius,
       overflow: 'hidden',
       position: 'relative',
@@ -752,7 +769,7 @@ function ScreenshotMarquee({ pages, name, radius, url }) {
           key: i, src, alt: name,
           loading: 'lazy',
           style: {
-            height: 'clamp(290px,38vw,580px)',
+            height: h,
             width: 'auto',
             objectFit: 'cover',
             borderRadius: '12px',
@@ -794,7 +811,7 @@ function ScreenshotMarquee({ pages, name, radius, url }) {
   );
 }
 
-function LiveIframePreview({ url, name, radius }) {
+function LiveIframePreview({ url, name, radius, previewH }) {
   const wrapRef = React.useRef(null);
   const [scale, setScale] = React.useState(0.5);
   const [hovered, setHovered] = React.useState(false);
@@ -811,7 +828,7 @@ function LiveIframePreview({ url, name, radius }) {
     return () => ro.disconnect();
   }, []);
 
-  const containerH = 'clamp(290px,38vw,580px)';
+  const containerH = previewH || 'clamp(290px,38vw,580px)';
 
   return React.createElement('div', {
     ref: wrapRef,
@@ -911,7 +928,7 @@ function PhoneCarousel({ screenshots, name, radius, storeUrl }) {
   return React.createElement('div', {
     style: {
       width: '100%',
-      height: 'clamp(290px,38vw,580px)',
+      height: previewH || 'clamp(290px,38vw,580px)',
       borderRadius: radius,
       overflow: 'hidden',
       background: 'linear-gradient(135deg, #1a0515 0%, #0d0310 60%, #12050e 100%)',
@@ -1036,7 +1053,7 @@ function PhoneCarousel({ screenshots, name, radius, storeUrl }) {
   );
 }
 
-function AppStaticBanner({ logoUrl, featureUrl, screenshots, name, radius, storeComingSoon }) {
+function AppStaticBanner({ logoUrl, featureUrl, screenshots, name, radius, storeComingSoon, previewH }) {
   const [activeShot, setActiveShot] = React.useState(0);
   const [fading, setFading] = React.useState(false);
   const hasShots = screenshots && screenshots.length > 0;
@@ -1053,7 +1070,7 @@ function AppStaticBanner({ logoUrl, featureUrl, screenshots, name, radius, store
   const absStretch = { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 };
 
   return React.createElement('div', {
-    style: { width: '100%', height: 'clamp(290px,38vw,580px)', borderRadius: radius, overflow: 'hidden', display: 'flex', background: '#0a0a0a' },
+    style: { width: '100%', height: previewH || 'clamp(290px,38vw,580px)', borderRadius: radius, overflow: 'hidden', display: 'flex', background: '#0a0a0a' },
   },
     // LEFT col: feature top + logo bottom
     React.createElement('div', {
@@ -1178,128 +1195,143 @@ function AppStaticBanner({ logoUrl, featureUrl, screenshots, name, radius, store
   );
 }
 
-function LiveCard({ project }) {
+function LiveCard({ project, compact }) {
   const [hov, setHov] = React.useState(false);
-  const imgRadius = 'clamp(16px,2vw,28px)';
+  const [spotlight, setSpotlight] = React.useState({ x: 50, y: 50, show: false });
+  const cardRef = React.useRef(null);
+  const imgRadius = compact ? 'clamp(12px,1.5vw,20px)' : 'clamp(16px,2vw,28px)';
+  const previewH = compact ? 'clamp(160px,20vw,300px)' : 'clamp(290px,38vw,580px)';
+
+  function handleMouseMove(e) {
+    const rect = cardRef.current.getBoundingClientRect();
+    setSpotlight({ x: ((e.clientX - rect.left) / rect.width) * 100, y: ((e.clientY - rect.top) / rect.height) * 100, show: true });
+  }
+
   return React.createElement('div', {
+    ref: cardRef,
+    className: 'live-card',
+    onMouseMove: handleMouseMove,
+    onMouseLeave: () => { setSpotlight(s => ({ ...s, show: false })); setHov(false); },
     style: {
-      borderRadius: 'clamp(30px,4vw,60px)',
-      border: '2px solid rgba(215,226,234,0.25)',
+      borderRadius: compact ? 'clamp(20px,3vw,40px)' : 'clamp(30px,4vw,60px)',
+      border: '2px solid rgba(215,226,234,0.18)',
       background: '#0C0C0C',
-      padding: 'clamp(16px,2vw,32px)',
+      padding: compact ? 'clamp(12px,1.5vw,20px)' : 'clamp(16px,2vw,32px)',
       position: 'relative',
       overflow: 'hidden',
     },
   },
-    // subtle gradient tint top-right
+    // Mouse-tracking spotlight
     React.createElement('div', {
       style: {
-        position: 'absolute', top: 0, right: 0,
-        width: '40%', height: '40%', pointerEvents: 'none',
-        background: 'radial-gradient(ellipse at 80% 20%, rgba(182,0,168,0.12) 0%, transparent 70%)',
+        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none', zIndex: 0,
+        background: spotlight.show
+          ? 'radial-gradient(circle 380px at ' + spotlight.x + '% ' + spotlight.y + '%, rgba(182,0,168,0.10) 0%, transparent 70%)'
+          : 'none',
+        transition: 'background 0.12s ease',
       },
     }),
     // Top row
     React.createElement('div', {
       style: {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: 'clamp(12px,1.5vw,24px)', flexWrap: 'wrap', gap: '12px',
+        marginBottom: compact ? 'clamp(8px,1vw,14px)' : 'clamp(12px,1.5vw,24px)',
+        flexWrap: 'wrap', gap: '8px', position: 'relative', zIndex: 1,
       },
     },
       React.createElement('div', {
-        style: { display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,24px)' },
+        style: { display: 'flex', alignItems: 'center', gap: compact ? 'clamp(8px,1.2vw,16px)' : 'clamp(12px,2vw,24px)' },
       },
         React.createElement('span', {
-          style: { ...GT, fontWeight: 900, fontSize: 'clamp(2.5rem,7vw,110px)', lineHeight: 1, fontFamily: KN },
+          style: { ...GT, fontWeight: 900, fontSize: compact ? 'clamp(1.8rem,4vw,56px)' : 'clamp(2.5rem,7vw,110px)', lineHeight: 1, fontFamily: KN },
         }, project.num),
         React.createElement('div', {},
           React.createElement('p', {
-            style: { color: 'var(--accent)', opacity: 0.5, textTransform: 'uppercase', fontSize: 'clamp(0.7rem,1vw,0.9rem)', letterSpacing: '0.1em', fontFamily: KN, fontWeight: 300, marginBottom: '4px' },
+            style: { color: 'var(--accent)', opacity: 0.5, textTransform: 'uppercase', fontSize: 'clamp(0.6rem,0.8vw,0.8rem)', letterSpacing: '0.1em', fontFamily: KN, fontWeight: 300, marginBottom: '3px' },
           }, project.type),
           React.createElement('h3', {
-            style: { color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase', fontSize: 'clamp(1.1rem,2.5vw,2.2rem)', fontFamily: KN, lineHeight: 1.1 },
+            style: { color: 'var(--accent)', fontWeight: 700, textTransform: 'uppercase', fontSize: compact ? 'clamp(0.85rem,1.6vw,1.4rem)' : 'clamp(1.1rem,2.5vw,2.2rem)', fontFamily: KN, lineHeight: 1.1 },
           }, project.name),
           React.createElement('div', {
-            style: { display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '8px' },
+            style: { display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '6px' },
           },
             project.tags.map(tag =>
               React.createElement('span', {
                 key: tag,
                 style: {
-                  border: '1px solid rgba(215,226,234,0.2)',
-                  borderRadius: '9999px',
-                  color: 'var(--accent)',
-                  fontFamily: KN, fontWeight: 300,
-                  fontSize: 'clamp(0.55rem,0.75vw,0.7rem)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  padding: '2px 10px',
-                  opacity: 0.6,
+                  border: '1px solid rgba(215,226,234,0.2)', borderRadius: '9999px',
+                  color: 'var(--accent)', fontFamily: KN, fontWeight: 300,
+                  fontSize: 'clamp(0.5rem,0.65vw,0.65rem)', letterSpacing: '0.08em',
+                  textTransform: 'uppercase', padding: '2px 8px', opacity: 0.6,
                 },
               }, tag)
             )
           )
         )
       ),
-      project.storeComingSoon
-        ? React.createElement('span', {
-            style: {
-              borderRadius: '9999px',
-              border: '2px solid rgba(215,226,234,0.2)',
-              color: 'rgba(215,226,234,0.35)',
-              fontFamily: KN, fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
-              fontSize: 'clamp(0.8rem,1vw,1rem)',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-            },
-          }, 'Play Store — Coming Soon')
-        : (project.url || project.storeUrl) ? React.createElement('a', {
-            href: project.storeUrl || project.url,
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            onMouseEnter: () => setHov(true),
-            onMouseLeave: () => setHov(false),
-            style: {
-              borderRadius: '9999px',
-              border: '2px solid var(--accent)',
-              background: hov ? 'rgba(215,226,234,0.08)' : 'transparent',
-              color: 'var(--accent)',
-              fontFamily: KN, fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
-              fontSize: 'clamp(0.8rem,1vw,1rem)',
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-              whiteSpace: 'nowrap',
-              textDecoration: 'none',
-              display: 'inline-block',
-            },
-          }, project.storeUrl ? 'Get the App ↗' : 'View Project ↗')
-        : null
+      !compact && (
+        project.storeComingSoon
+          ? React.createElement('span', {
+              style: {
+                borderRadius: '9999px', border: '2px solid rgba(215,226,234,0.2)',
+                color: 'rgba(215,226,234,0.35)', fontFamily: KN, fontWeight: 500,
+                textTransform: 'uppercase', letterSpacing: '0.1em',
+                padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+                fontSize: 'clamp(0.8rem,1vw,1rem)', whiteSpace: 'nowrap', display: 'inline-block',
+              },
+            }, 'Play Store — Coming Soon')
+          : (project.url || project.storeUrl)
+            ? React.createElement('a', {
+                href: project.storeUrl || project.url, target: '_blank', rel: 'noopener noreferrer',
+                onMouseEnter: () => setHov(true), onMouseLeave: () => setHov(false),
+                style: {
+                  borderRadius: '9999px', border: '2px solid var(--accent)',
+                  background: hov ? 'rgba(215,226,234,0.08)' : 'transparent',
+                  color: 'var(--accent)', fontFamily: KN, fontWeight: 500,
+                  textTransform: 'uppercase', letterSpacing: '0.1em',
+                  padding: 'clamp(10px,1.2vw,14px) clamp(24px,2.5vw,40px)',
+                  fontSize: 'clamp(0.8rem,1vw,1rem)', cursor: 'pointer',
+                  transition: 'background 0.2s', whiteSpace: 'nowrap',
+                  textDecoration: 'none', display: 'inline-block',
+                },
+              }, project.storeUrl ? 'Get the App ↗' : 'View Project ↗')
+            : null
+      )
     ),
     // Description
     React.createElement('p', {
       style: {
         color: 'var(--accent)', fontFamily: KN, fontWeight: 300,
-        fontSize: 'clamp(0.75rem,1.1vw,1rem)',
-        lineHeight: 1.6, opacity: 0.55,
-        maxWidth: '640px',
-        marginBottom: 'clamp(16px,2vw,28px)',
-        letterSpacing: '0.02em',
+        fontSize: compact ? 'clamp(0.65rem,0.9vw,0.85rem)' : 'clamp(0.75rem,1.1vw,1rem)',
+        lineHeight: 1.5, opacity: 0.5,
+        marginBottom: compact ? 'clamp(10px,1.2vw,16px)' : 'clamp(16px,2vw,28px)',
+        letterSpacing: '0.02em', position: 'relative', zIndex: 1,
+        display: '-webkit-box', WebkitLineClamp: compact ? 2 : 99, WebkitBoxOrient: 'vertical', overflow: 'hidden',
       },
     }, project.desc),
-    // Full-width preview
-    project.logoUrl
-      ? React.createElement(AppStaticBanner, { logoUrl: project.logoUrl, featureUrl: project.featureUrl, screenshots: project.appShots, name: project.name, radius: imgRadius, storeComingSoon: project.storeComingSoon })
-      : project.appScreenshots !== undefined
-        ? React.createElement(PhoneCarousel, { screenshots: project.appScreenshots, name: project.name, radius: imgRadius, storeUrl: project.storeUrl })
-        : project.pages
-          ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url })
-          : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius })
+    // Preview
+    React.createElement('div', { style: { position: 'relative', zIndex: 1 } },
+      project.logoUrl
+        ? React.createElement(AppStaticBanner, { logoUrl: project.logoUrl, featureUrl: project.featureUrl, screenshots: project.appShots, name: project.name, radius: imgRadius, storeComingSoon: project.storeComingSoon, previewH })
+        : project.appScreenshots !== undefined
+          ? React.createElement(PhoneCarousel, { screenshots: project.appScreenshots, name: project.name, radius: imgRadius, storeUrl: project.storeUrl, previewH })
+          : project.pages
+            ? React.createElement(ScreenshotMarquee, { pages: project.pages, name: project.name, radius: imgRadius, url: project.url, previewH })
+            : React.createElement(LiveIframePreview, { url: project.url, name: project.name, radius: imgRadius, previewH })
+    ),
+    // Compact footer link
+    compact && (project.url || project.storeUrl) && React.createElement('div', {
+      style: { marginTop: '10px', position: 'relative', zIndex: 1 },
+    },
+      React.createElement('a', {
+        href: project.storeUrl || project.url, target: '_blank', rel: 'noopener noreferrer',
+        style: {
+          color: 'var(--accent)', fontFamily: KN, fontWeight: 500,
+          fontSize: 'clamp(0.65rem,0.85vw,0.8rem)', textDecoration: 'none', opacity: 0.55,
+          textTransform: 'uppercase', letterSpacing: '0.1em',
+        },
+      }, 'View Project ↗')
+    )
   );
 }
 
