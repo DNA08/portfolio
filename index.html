@@ -1499,16 +1499,19 @@ function ProjectsSection() {
       }, 'Projects')
     ),
     React.createElement('div', {
-      style: { maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(24px,3vw,40px)' },
+      style: { maxWidth: '1280px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 'clamp(20px,2.5vw,36px)' },
     },
+      // Featured full-width card
       React.createElement(FadeIn, { key: 0, delay: 0, y: 40 },
         React.createElement(LiveCard, { project: LIVE_PROJECTS[0] })
       ),
-      React.createElement(FadeIn, { key: 1, delay: 0.15, y: 40 },
-        React.createElement(LiveCard, { project: LIVE_PROJECTS[1] })
-      ),
-      React.createElement(FadeIn, { key: 2, delay: 0.3, y: 40 },
-        React.createElement(LiveCard, { project: LIVE_PROJECTS[2] })
+      // 2-column bento grid for remaining projects
+      React.createElement(FadeIn, { key: 'grid', delay: 0.15, y: 40 },
+        React.createElement('div', { className: 'projects-grid' },
+          LIVE_PROJECTS.slice(1).map((proj, i) =>
+            React.createElement(LiveCard, { key: proj.num, project: proj, compact: true })
+          )
+        )
       )
     )
   );
